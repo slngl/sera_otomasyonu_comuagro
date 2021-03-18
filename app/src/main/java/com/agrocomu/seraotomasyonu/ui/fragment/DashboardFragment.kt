@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.agrocomu.seraotomasyonu.R
 import com.agrocomu.seraotomasyonu.base.BaseFragment
 import com.agrocomu.seraotomasyonu.databinding.FragmentDashboardBinding
@@ -22,6 +23,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(){
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
+        binding.button.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_weatherFragment)
+        }
         return binding.root
     }
 }

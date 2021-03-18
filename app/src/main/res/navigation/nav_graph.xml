@@ -25,5 +25,13 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.agrocomu.seraotomasyonu.ui.fragment.DashboardFragment"
-        android:label="DashboardFragment" />
+        android:label="DashboardFragment" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.agrocomu.seraotomasyonu.ui.fragment.WeatherFragment"
+        android:label="WeatherFragment" />
 </navigation>
