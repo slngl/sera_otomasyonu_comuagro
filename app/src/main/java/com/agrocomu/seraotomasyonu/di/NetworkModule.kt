@@ -1,6 +1,8 @@
 package com.agrocomu.seraotomasyonu.di
 
+import com.agrocomu.seraotomasyonu.di.qualifier.BaseURLQualifier
 import com.agrocomu.seraotomasyonu.di.qualifier.WaetherURLQualifier
+import com.agrocomu.seraotomasyonu.network.ApiService
 import com.agrocomu.seraotomasyonu.network.WeatherApi
 import com.agrocomu.seraotomasyonu.network.interceptors.WeatherQueryInterceptor
 import com.squareup.moshi.Moshi
@@ -20,19 +22,20 @@ import javax.inject.Singleton
 object NetworkModule {
 
 
-    /*    @Provides
+        @Provides
         @Singleton
         fun provideApiService(
             okHttpClient: OkHttpClient,
             @BaseURLQualifier baseURL: String,
-            gson: Gson
+            moshiConverterFactory: MoshiConverterFactory
         ): ApiService {
             return Retrofit.Builder()
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(moshiConverterFactory)
                 .baseUrl(baseURL)
                 .build()
-                .create(ApiService::class.java)*/
+                .create(ApiService::class.java)
+        }
 
     @Provides
     @Singleton

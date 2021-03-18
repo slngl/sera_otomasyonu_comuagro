@@ -1,6 +1,7 @@
 package com.agrocomu.seraotomasyonu.di
 
 import com.agrocomu.seraotomasyonu.di.qualifier.BaseURLQualifier
+import com.agrocomu.seraotomasyonu.di.qualifier.WaetherURLQualifier
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +14,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    @BaseURLQualifier
+    @WaetherURLQualifier
     fun provideBaseUrl(): String = "https://api.openweathermap.org/data/"
 
 }
