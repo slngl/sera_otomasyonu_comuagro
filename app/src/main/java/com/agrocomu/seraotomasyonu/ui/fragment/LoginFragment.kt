@@ -28,7 +28,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.btDoLogin.setOnClickListener {
-            viewModel.doLogin()
+//            viewModel.doLogin()
             val intent= Intent(requireContext(),MainActivity::class.java)
             startActivity(intent)
         }
@@ -37,10 +37,6 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
 
     override val layoutResource: Int = R.layout.login_fragment
 

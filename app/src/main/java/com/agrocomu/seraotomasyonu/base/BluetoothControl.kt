@@ -9,11 +9,13 @@ import java.io.InputStream
 import java.io.OutputStream
 
 
-@SuppressLint("HandlerLeak")
 object BluetoothControl {
 
     val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
+    /**
+     * todo: add fragment for bluetooth connection
+     */
 
     fun connectDevice(deviceAddress: String?){
         if (deviceAddress != null) {

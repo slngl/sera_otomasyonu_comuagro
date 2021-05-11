@@ -8,8 +8,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(@ApplicationContext private val context: Context): ViewModel() {
-    fun doLogin() {
-        Toast.makeText(context, "Giriş isteği yapıldı", Toast.LENGTH_LONG).show()
-    }
+class LoginViewModel @Inject constructor(): ViewModel() {
+//    fun doLogin() {
+//        Toast.makeText(context, "Giriş isteği yapıldı", Toast.LENGTH_LONG).show()
+//    }
 }
