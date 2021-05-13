@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.agrocomu.seraotomasyonu.ui.fragment.DashboardFragment"
+        android:name="com.agrocomu.seraotomasyonu.ui.fragment.DashboardBaseFragment"
         android:label="DashboardFragment" >
         <action
             android:id="@+id/action_dashboardFragment_to_weatherFragment"
@@ -34,6 +34,6 @@
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"
-        android:name="com.agrocomu.seraotomasyonu.ui.fragment.WeatherFragment"
+        android:name="com.agrocomu.seraotomasyonu.ui.fragment.Dashboard.innerFragments.WeatherFragment"
         android:label="WeatherFragment" />
 </navigation>

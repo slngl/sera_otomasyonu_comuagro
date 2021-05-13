@@ -3,4 +3,10 @@
     <string name="main_page">Anasayfa</string>
     <string name="at_1">Çatı 1</string>
 
+    <!--dashboard tab menu items -->
+    <string name="dashboard_home">Anasayfa</string>
+    <string name="dashboard_weather">Hava Durumu</string>
+    <string name="dashboard_settings">Ayarlar</string>
+    <string name="dashboard_control_panel">Kontrol Paneli</string>
+
 </resources>

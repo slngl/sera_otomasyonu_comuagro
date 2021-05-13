@@ -1,6 +1,5 @@
 package com.agrocomu.seraotomasyonu.base
 
-import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
 import android.util.Log
@@ -17,9 +16,9 @@ object BluetoothControl {
      * todo: add fragment for bluetooth connection
      */
 
-    fun connectDevice(deviceAddress: String?){
+    fun connectDevice(deviceAddress: String?) {
         if (deviceAddress != null) {
-            m_address=deviceAddress
+            m_address = deviceAddress
         }
 //        ConnectToDevice().execute()
         createConnectThread = CreateConnectThread(bluetoothAdapter, deviceAddress)
@@ -28,7 +27,7 @@ object BluetoothControl {
     }
 
 
-    fun btWrite(input: String){
+    fun btWrite(input: String) {
         connectedThread?.write(input)
     }
 
@@ -36,7 +35,7 @@ object BluetoothControl {
         return receivedMessage
     }
 
-    fun cancelConnection(){
+    fun cancelConnection() {
 
     }
 
@@ -47,7 +46,7 @@ object BluetoothControl {
 
     private fun sendCommand(input: String) {
         if (m_bluetoothSocket != null) {
-            try{
+            try {
                 m_bluetoothSocket!!.outputStream.write(input.toByteArray())
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -68,49 +67,51 @@ object BluetoothControl {
     }
 
 
-   /* ============================ Thread to Create Bluetooth Connection =================================== */
+    /* ============================ Thread to Create Bluetooth Connection =================================== */
     class CreateConnectThread(bluetoothAdapter: BluetoothAdapter, address: String?) : Thread() {
-       override fun run() {
-           val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-           bluetoothAdapter.cancelDiscovery()
-           try {
-               mmSocket!!.connect()
-               Log.e("Status", "Device connected")
-           } catch (connectException: IOException) {
-               try {
-                   mmSocket!!.close()
-                   Log.e("Status", "Cannot connect to device")
-               } catch (closeException: IOException) {
-                   Log.e(TAG, "Could not close the client socket", closeException)
-               }
-               return
-           }
-           connectedThread = ConnectedThread(mmSocket)
-           connectedThread!!.run()
-       }
-       fun cancel() {
-           try {
-               mmSocket!!.close()
-           } catch (e: IOException) {
-               Log.e(TAG, "Could not close the client socket", e)
-           }
-       }
+        override fun run() {
+            val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+            bluetoothAdapter.cancelDiscovery()
+            try {
+                mmSocket!!.connect()
+                Log.e("Status", "Device connected")
+            } catch (connectException: IOException) {
+                try {
+                    mmSocket!!.close()
+                    Log.e("Status", "Cannot connect to device")
+                } catch (closeException: IOException) {
+                    Log.e(TAG, "Could not close the client socket", closeException)
+                }
+                return
+            }
+            connectedThread = ConnectedThread(mmSocket)
+            connectedThread!!.run()
+        }
 
-       init {
-           val bluetoothDevice = bluetoothAdapter.getRemoteDevice(address)
-           var tmp: BluetoothSocket? = null
-           val uuid = bluetoothDevice.uuids[0].uuid //Bu satıra dikkat et ***************************************************************
-           try {
-               tmp = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(uuid)
-           } catch (e: IOException) {
-               Log.e(TAG, "Socket's create() method failed", e)
-           }
-           mmSocket = tmp
-       }
-   }
+        fun cancel() {
+            try {
+                mmSocket!!.close()
+            } catch (e: IOException) {
+                Log.e(TAG, "Could not close the client socket", e)
+            }
+        }
+
+        init {
+            val bluetoothDevice = bluetoothAdapter.getRemoteDevice(address)
+            var tmp: BluetoothSocket? = null
+            val uuid =
+                bluetoothDevice.uuids[0].uuid //Bu satıra dikkat et ***************************************************************
+            try {
+                tmp = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(uuid)
+            } catch (e: IOException) {
+                Log.e(TAG, "Socket's create() method failed", e)
+            }
+            mmSocket = tmp
+        }
+    }
 
     /* =============================== Thread for Data Transfer =========================================== */
-     class ConnectedThread(private val mmSocket: BluetoothSocket?) : Thread() {
+    class ConnectedThread(private val mmSocket: BluetoothSocket?) : Thread() {
         private val mmInStream: InputStream?
         private val mmOutStream: OutputStream?
         override fun run() {
@@ -125,7 +126,7 @@ object BluetoothControl {
                      */
                     buffer[bytes] = mmInStream!!.read().toByte()
                     var readMessage: String
-                    if (buffer[bytes].toChar() =='\n') {
+                    if (buffer[bytes].toChar() == '\n') {
                         readMessage = String(buffer, 0, bytes)
                         Log.e("Arduino Message", readMessage)
                         //handler.obtainMessage(MESSAGE_READ,readMessage).sendToTarget();
@@ -190,14 +191,15 @@ object BluetoothControl {
     }
 
 
-        private const val REQUEST_ENABLE_BT = 1
-        //    private final UUID  MY_UUID = UUID.fromString("H-C-2010-06-01");
-        private const val TAG = "MY_APP_DEBUG_TAG"
-        var mmSocket: BluetoothSocket? = null
-        var connectedThread: ConnectedThread? = null
-        var createConnectThread: CreateConnectThread? = null
-        private const val CONNECTING_STATUS = 1 // used in bluetooth handler to identify message status
-        private const val MESSAGE_READ = 2 // used in bluetooth handler to identify message update
+    private const val REQUEST_ENABLE_BT = 1
+
+    //    private final UUID  MY_UUID = UUID.fromString("H-C-2010-06-01");
+    private const val TAG = "MY_APP_DEBUG_TAG"
+    var mmSocket: BluetoothSocket? = null
+    var connectedThread: ConnectedThread? = null
+    var createConnectThread: CreateConnectThread? = null
+    private const val CONNECTING_STATUS = 1 // used in bluetooth handler to identify message status
+    private const val MESSAGE_READ = 2 // used in bluetooth handler to identify message update
 
 
 }

@@ -1,6 +1,5 @@
-package com.agrocomu.seraotomasyonu.ui.fragment
+package com.agrocomu.seraotomasyonu.ui.fragment.Dashboard.innerFragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.agrocomu.seraotomasyonu.databinding.FragmentWeatherBinding
 import com.agrocomu.seraotomasyonu.ui.viewModel.WeatherViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_weather.*
 
 @AndroidEntryPoint
 class WeatherFragment : BaseFragment<FragmentWeatherBinding>() {
@@ -24,6 +22,9 @@ class WeatherFragment : BaseFragment<FragmentWeatherBinding>() {
 
     private val viewModel : WeatherViewModel by viewModels()
 
+    companion object{
+        fun newInstance() = WeatherFragment()
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
