@@ -74,9 +74,10 @@ class ContolPanelReadDataViewHolder(val binding: ItemControlPanelReadDataBinding
     }
 }
 
-class ControlPanelSendDataViewHolder(binding: ItemControlPanelSendDataBinding) :
+class ControlPanelSendDataViewHolder(val binding: ItemControlPanelSendDataBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bindTo(item: ControlPanelAdapterItem?) {
+        binding.tvTitle.text = item?.title
 
     }
 }

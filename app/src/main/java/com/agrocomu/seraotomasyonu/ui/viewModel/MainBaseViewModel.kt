@@ -46,7 +46,7 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
 
         //soil humiduty
         BluetoothControl.btWrite("a")
-        val msg1 = BluetoothControl.btRead()
+//        val msg1 = BluetoothControl.btRead()
 
         returnData.add(
             ControlPanelAdapterItem(
@@ -54,7 +54,7 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
                 "Serada toprağın nem oranını gözterir, su ihtiyacı hakkında fikir verir.",
                 null,
                 null,
-                msg1,
+                "msg1",
                 2.1,
                 ControlPanelAdapterItemType.READ_DATA
             )
