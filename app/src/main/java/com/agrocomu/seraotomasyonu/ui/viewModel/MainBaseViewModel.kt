@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor() : ViewModel() {
+class MainBaseViewModel @Inject constructor() : ViewModel() {
 
     val liveFirstRoofState = MutableLiveData<String?>()
     val liveSecondRoofState = MutableLiveData<String>()

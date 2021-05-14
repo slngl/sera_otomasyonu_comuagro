@@ -12,18 +12,20 @@ import com.agrocomu.seraotomasyonu.base.BaseFragment
 import com.agrocomu.seraotomasyonu.databinding.FragmentDashboardBaseBinding
 import com.agrocomu.seraotomasyonu.entity.DashboardMenuItemEntity
 import com.agrocomu.seraotomasyonu.entity.DashboardMenuItemType
-import com.agrocomu.seraotomasyonu.ui.fragment.Dashboard.innerFragments.DashboardControlPanelFragment
-import com.agrocomu.seraotomasyonu.ui.fragment.Dashboard.innerFragments.DashboardHomeFragment
-import com.agrocomu.seraotomasyonu.ui.fragment.Dashboard.innerFragments.DashboardSettingsFragment
-import com.agrocomu.seraotomasyonu.ui.fragment.Dashboard.innerFragments.WeatherFragment
-import com.agrocomu.seraotomasyonu.ui.viewModel.DashboardViewModel
+import com.agrocomu.seraotomasyonu.ui.fragment.Main.innerFragments.ControlPanelFragment
+import com.agrocomu.seraotomasyonu.ui.fragment.Main.innerFragments.HomeFragment
+import com.agrocomu.seraotomasyonu.ui.fragment.Main.innerFragments.SettingsFragment
+import com.agrocomu.seraotomasyonu.ui.fragment.Main.innerFragments.WeatherFragment
+import com.agrocomu.seraotomasyonu.ui.viewModel.MainBaseViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
     override val layoutResource: Int
         get() = R.layout.fragment_dashboard_base
 
-    private val viewModel: DashboardViewModel by viewModels()
+    private val baseViewModel: MainBaseViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +34,7 @@ class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        viewModel.liveDataMenuItems.observe(viewLifecycleOwner, {
+        baseViewModel.liveDataMenuItems.observe(viewLifecycleOwner, {
             setupPager(it)
         })
 /*        binding.ivFirstRoof.setOnClickListener {
@@ -60,7 +62,7 @@ class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
 
     private fun setupPager(listOfPages: List<DashboardMenuItemEntity>) {
         if (binding.vpPages.adapter == null) {
-            val adapter = DashboardCollectionAdapter(this, listOfPages)
+            val adapter = CollectionAdapter(this, listOfPages)
             binding.vpPages.adapter = adapter
             binding.vpPages.offscreenPageLimit = adapter.itemCount
 
@@ -71,7 +73,7 @@ class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
     }
 }
 
-class DashboardCollectionAdapter(
+class CollectionAdapter(
     fragment: Fragment,
     val listOfPages: List<DashboardMenuItemEntity>
 ) : FragmentStateAdapter(fragment) {
@@ -82,9 +84,9 @@ class DashboardCollectionAdapter(
     override fun createFragment(position: Int): Fragment {
         return when (listOfPages[position].key) {
             DashboardMenuItemType.weather -> WeatherFragment.newInstance()
-            DashboardMenuItemType.settings -> DashboardSettingsFragment.newInstance()
-            DashboardMenuItemType.controlpanel -> DashboardControlPanelFragment.newInstance()
-            DashboardMenuItemType.home -> DashboardHomeFragment.newInstance()
+            DashboardMenuItemType.settings -> SettingsFragment.newInstance()
+            DashboardMenuItemType.controlpanel -> ControlPanelFragment.newInstance()
+            DashboardMenuItemType.home -> HomeFragment.newInstance()
         }
     }
 }

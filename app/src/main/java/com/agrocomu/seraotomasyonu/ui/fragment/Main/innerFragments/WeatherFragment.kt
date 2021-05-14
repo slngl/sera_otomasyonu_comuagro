@@ -1,4 +1,4 @@
-package com.agrocomu.seraotomasyonu.ui.fragment.Dashboard.innerFragments
+package com.agrocomu.seraotomasyonu.ui.fragment.Main.innerFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

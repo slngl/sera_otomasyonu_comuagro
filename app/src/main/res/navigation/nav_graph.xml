@@ -34,6 +34,6 @@
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"
-        android:name="com.agrocomu.seraotomasyonu.ui.fragment.Dashboard.innerFragments.WeatherFragment"
+        android:name="com.agrocomu.seraotomasyonu.ui.fragment.Main.innerFragments.WeatherFragment"
         android:label="WeatherFragment" />
 </navigation>
