@@ -2,11 +2,16 @@ package com.agrocomu.seraotomasyonu.ui.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.agrocomu.seraotomasyonu.R
 import com.agrocomu.seraotomasyonu.base.BluetoothControl
+import com.agrocomu.seraotomasyonu.entity.ControlPanelAdapterItem
+import com.agrocomu.seraotomasyonu.entity.ControlPanelAdapterItemType
 import com.agrocomu.seraotomasyonu.entity.DashboardMenuItemEntity
 import com.agrocomu.seraotomasyonu.entity.DashboardMenuItemType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.ticker
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,8 +26,55 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
     val liveSoilHumidity = MutableLiveData<String>()
     val liveDataMenuItems = MutableLiveData<List<DashboardMenuItemEntity>>()
 
+    val liveControlPanelData = MutableLiveData<List<ControlPanelAdapterItem>>()
+
     init{
         createTabMenuItems()
+    }
+
+    fun startPolling() {
+        val tickerChannel = ticker(10_000,0) // Every 10 second
+        viewModelScope.launch {
+            for (event in tickerChannel){
+                getControlPanelList()
+            }
+        }
+    }
+
+    fun getControlPanelList(){
+        val returnData = mutableListOf<ControlPanelAdapterItem>()
+
+        //soil humiduty
+        BluetoothControl.btWrite("a")
+        val msg1 = BluetoothControl.btRead()
+
+        returnData.add(
+            ControlPanelAdapterItem(
+                "Toprak Nemi",
+                "Serada toprağın nem oranını gözterir, su ihtiyacı hakkında fikir verir.",
+                null,
+                null,
+                msg1,
+                2.1,
+                ControlPanelAdapterItemType.READ_DATA
+            )
+        )
+
+        //first roof
+        BluetoothControl.btWrite("v")
+        returnData.add(
+            ControlPanelAdapterItem(
+                "Çatı 1",
+                "Bir numaralı çatının havalandırma için açık veya olduğunu gösterir. Çatı durumunu buradan kontrol edebilirsiniz.",
+                "Açık",
+                null,
+                "v",
+                null,
+                ControlPanelAdapterItemType.SEND_DATA
+            )
+        )
+
+        liveControlPanelData.postValue(returnData)
     }
 
     fun readBluetoothData(){

@@ -8,12 +8,15 @@ import androidx.fragment.app.viewModels
 import com.agrocomu.seraotomasyonu.R
 import com.agrocomu.seraotomasyonu.base.BaseFragment
 import com.agrocomu.seraotomasyonu.databinding.FragmentDashboardControlPanelBinding
+import com.agrocomu.seraotomasyonu.ui.adapter.ControlPanelAdapter
 import com.agrocomu.seraotomasyonu.ui.viewModel.MainBaseViewModel
 
 class ControlPanelFragment : BaseFragment<FragmentDashboardControlPanelBinding>() {
     override val layoutResource: Int
         get() = R.layout.fragment_dashboard_control_panel
     private val baseViewModel: MainBaseViewModel by viewModels()
+
+    private val controlPanelAdapter by lazy { ControlPanelAdapter() }
 
     companion object {
         fun newInstance() = ControlPanelFragment()
@@ -25,7 +28,15 @@ class ControlPanelFragment : BaseFragment<FragmentDashboardControlPanelBinding>(
         savedInstanceState: Bundle?
     ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
+        baseViewModel.startPolling()
 
+        binding.rv.adapter = controlPanelAdapter
+
+        baseViewModel.liveControlPanelData.observe(viewLifecycleOwner, {
+            it?.let {
+                controlPanelAdapter.submitList(it)
+            }
+        })
         return binding.root
     }
 }
