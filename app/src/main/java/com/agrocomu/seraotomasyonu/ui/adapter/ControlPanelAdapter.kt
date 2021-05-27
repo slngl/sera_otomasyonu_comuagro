@@ -70,6 +70,10 @@ class ControlPanelAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 class ContolPanelReadDataViewHolder(val binding: ItemControlPanelReadDataBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bindTo(item: ControlPanelAdapterItem?) {
+        if (item?.imageResource != null) {
+            binding.imageView.setImageResource(item.imageResource)
+        }
+        binding.tvAmount.text = item?.amount.toString()
         binding.tvTitle.text = item?.title
     }
 }
@@ -78,6 +82,8 @@ class ControlPanelSendDataViewHolder(val binding: ItemControlPanelSendDataBindin
     RecyclerView.ViewHolder(binding.root) {
     fun bindTo(item: ControlPanelAdapterItem?) {
         binding.tvTitle.text = item?.title
-
+        if (item?.imageResource != null) {
+            binding.imageView.setImageResource(item.imageResource)
+        }
     }
 }
