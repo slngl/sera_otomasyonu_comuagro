@@ -7,6 +7,7 @@ data class ControlPanelAdapterItem(
     val sendMessage: String? = null,
     val readMessage: String? = null,
     val amount: Double? = null, //for READ_DATA
+    val imageResource: Int? = null,
     val controlPanelAdapterItemType: ControlPanelAdapterItemType
 )
 
