@@ -32,29 +32,27 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
     val liveDataMenuItems = MutableLiveData<List<DashboardMenuItemEntity>>()
     val liveControlPanelData = MutableLiveData<List<ControlPanelAdapterItem>>()
 
-    init{
+    init {
         createTabMenuItems()
     }
 
     fun startPolling() {
-        val tickerChannel = ticker(10_000,0) // Every 10 second
+        val tickerChannel = ticker(10_000, 0) // Every 10 second
         viewModelScope.launch {
-            for (event in tickerChannel){
+            for (event in tickerChannel) {
                 getControlPanelList()
             }
         }
     }
 
-    fun getControlPanelList(){
+    fun getControlPanelList() {
         val returnData = mutableListOf<ControlPanelAdapterItem>()
 
-        for (i in 0..9){
+        for (i in 0..9) {
             readBluetoothData()
-
-
         }
         liveSoilHumidity.value?.let {
-        //soil humiduty
+            //soil humiduty
             returnData.add(
                 ControlPanelAdapterItem(
                     "Toprak Nemi",
@@ -70,7 +68,7 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
         }
 
         liveAmbientHumidity.value?.let {
-        //ambient humiduty
+            //ambient humiduty
             returnData.add(
                 ControlPanelAdapterItem(
                     "Ortam Nemi",
@@ -101,21 +99,21 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
             )
         }
 
-    liveWindRotate.value?.let {
-        //wind rotate
-        returnData.add(
-            ControlPanelAdapterItem(
-                "Rüzgar Yönü",
-                "Rüzgar yönünü gösterir.",
-                null,
-                null,
-                it,
-                0.4,
-                R.drawable.ic_baseline_toys_24,
-                ControlPanelAdapterItemType.READ_DATA
+        liveWindRotate.value?.let {
+            //wind rotate
+            returnData.add(
+                ControlPanelAdapterItem(
+                    "Rüzgar Yönü",
+                    "Rüzgar yönünü gösterir.",
+                    null,
+                    null,
+                    it,
+                    0.4,
+                    R.drawable.ic_baseline_toys_24,
+                    ControlPanelAdapterItemType.READ_DATA
+                )
             )
-        )
-    }
+        }
 
         liveWindSpeed.value?.let {
             //wind speed
@@ -200,49 +198,74 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
         liveControlPanelData.postValue(returnData)
     }
 
-    fun readBluetoothData(){
+    fun readBluetoothData() {
         val msg = BluetoothControl.btRead()
-        msg?.let {  msg->
-            when(msg){
-                "ortamNem" -> liveAmbientHumidity.postValue(msg)
-                "toprakNem" -> liveSoilHumidity.postValue(msg)
-                "sicaklik" -> liveTemp.postValue(msg)
-                "ruzgarYonu" -> liveWindRotate.postValue(msg)
-                "ruzgarHizi" -> liveWindSpeed.postValue(msg)
-                "catiBir" -> liveFirstRoofState.postValue(msg)
-                "catiIki" -> liveSecondRoofState.postValue(msg)
-                "suMotoru" -> liveWaterPump.postValue(msg)
-                "fan" -> liveFan.postValue(msg)
-            }
+        val splited = msg?.split(":")
+
+        when (splited?.firstOrNull { !it.isEmpty() }) {
+            "ortamNem" -> liveAmbientHumidity.postValue(splited.last())
+            "toprakNem" -> liveSoilHumidity.postValue(splited.last())
+            "sicaklik" -> liveTemp.postValue(splited.last())
+            "ruzgarYonu" -> liveWindRotate.postValue(splited.last())
+            "ruzgarHizi" -> liveWindSpeed.postValue(splited.last())
+            "catiBir" -> liveFirstRoofState.postValue(splited.last())
+            "catiIki" -> liveSecondRoofState.postValue(splited.last())
+            "suMotoru" -> liveWaterPump.postValue(splited.last())
+            "fan" -> liveFan.postValue(splited.last())
         }
     }
 
-    fun sendDataToBluetooth(msg : String){
+
+    fun sendDataToBluetooth(msg: String) {
         BluetoothControl.btWrite(msg)
     }
 
-    fun closeFirstRoof(){
+    fun closeFirstRoof() {
         BluetoothControl.btWrite("b")
     }
 
-    fun openFirstRoof(){
+    fun openFirstRoof() {
         BluetoothControl.btWrite("v")
     }
 
-    fun closeSecondRoof(){
+    fun closeSecondRoof() {
         BluetoothControl.btWrite("n")
     }
 
-    fun openSecondRoof(){
+    fun openSecondRoof() {
         BluetoothControl.btWrite("m")
     }
 
     fun createTabMenuItems() {
         val menuList = mutableListOf<DashboardMenuItemEntity>()
-        menuList.add(DashboardMenuItemEntity(0, R.string.dashboard_home, DashboardMenuItemType.home))
-        menuList.add(DashboardMenuItemEntity(1, R.string.dashboard_weather, DashboardMenuItemType.weather))
-        menuList.add(DashboardMenuItemEntity(2, R.string.dashboard_control_panel, DashboardMenuItemType.controlpanel))
-        menuList.add(DashboardMenuItemEntity(3, R.string.dashboard_settings, DashboardMenuItemType.settings))
+        menuList.add(
+            DashboardMenuItemEntity(
+                0,
+                R.string.dashboard_home,
+                DashboardMenuItemType.home
+            )
+        )
+        menuList.add(
+            DashboardMenuItemEntity(
+                1,
+                R.string.dashboard_weather,
+                DashboardMenuItemType.weather
+            )
+        )
+        menuList.add(
+            DashboardMenuItemEntity(
+                2,
+                R.string.dashboard_control_panel,
+                DashboardMenuItemType.controlpanel
+            )
+        )
+        menuList.add(
+            DashboardMenuItemEntity(
+                3,
+                R.string.dashboard_settings,
+                DashboardMenuItemType.settings
+            )
+        )
         liveDataMenuItems.postValue(menuList)
     }
 }
