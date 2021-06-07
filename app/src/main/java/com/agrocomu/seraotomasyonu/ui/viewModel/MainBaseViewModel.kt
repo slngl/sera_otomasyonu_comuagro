@@ -48,48 +48,60 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
     fun getControlPanelList(){
         val returnData = mutableListOf<ControlPanelAdapterItem>()
 
+        for (i in 0..9){
+            readBluetoothData()
+
+
+        }
+        liveSoilHumidity.value?.let {
         //soil humiduty
-        returnData.add(
-            ControlPanelAdapterItem(
-                "Toprak Nemi",
-                "Serada toprağın nem oranını gözterir, su ihtiyacı hakkında fikir verir.",
-                null,
-                null,
-                "msg1",
-                2.1,
-                R.drawable.ic_humidity,
-                ControlPanelAdapterItemType.READ_DATA
+            returnData.add(
+                ControlPanelAdapterItem(
+                    "Toprak Nemi",
+                    "Serada toprağın nem oranını gözterir, su ihtiyacı hakkında fikir verir.",
+                    null,
+                    null,
+                    it,
+                    0.1,
+                    R.drawable.ic_humidity,
+                    ControlPanelAdapterItemType.READ_DATA
+                )
             )
-        )
+        }
 
+        liveAmbientHumidity.value?.let {
         //ambient humiduty
-        returnData.add(
-            ControlPanelAdapterItem(
-                "Toprak Nemi",
-                "Serada toprağın nem oranını gözterir, su ihtiyacı hakkında fikir verir.",
-                null,
-                null,
-                "msg1",
-                2.1,
-                R.drawable.ic_humidity,
-                ControlPanelAdapterItemType.READ_DATA
+            returnData.add(
+                ControlPanelAdapterItem(
+                    "Ortam Nemi",
+                    "Serada ortamın nem oranını gözterir, su ihtiyacı hakkında fikir verir.",
+                    null,
+                    null,
+                    it,
+                    0.2,
+                    R.drawable.ic_humidity,
+                    ControlPanelAdapterItemType.READ_DATA
+                )
             )
-        )
+        }
 
-        //temp
-        returnData.add(
-            ControlPanelAdapterItem(
-                "Sıcaklık",
-                "Sera sıcaklığını gösterir.",
-                null,
-                null,
-                "msg1",
-                2.1,
-                null,
-                ControlPanelAdapterItemType.READ_DATA
+        liveTemp.value?.let {
+            //temp
+            returnData.add(
+                ControlPanelAdapterItem(
+                    "Sıcaklık",
+                    "Sera sıcaklığını gösterir.",
+                    null,
+                    null,
+                    it,
+                    0.3,
+                    null,
+                    ControlPanelAdapterItemType.READ_DATA
+                )
             )
-        )
+        }
 
+    liveWindRotate.value?.let {
         //wind rotate
         returnData.add(
             ControlPanelAdapterItem(
@@ -97,67 +109,93 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
                 "Rüzgar yönünü gösterir.",
                 null,
                 null,
-                "msg1",
-                2.1,
+                it,
+                0.4,
                 R.drawable.ic_baseline_toys_24,
                 ControlPanelAdapterItemType.READ_DATA
             )
         )
-        //wind speed
-        returnData.add(
-            ControlPanelAdapterItem(
-                "Rüzgar Hızı",
-                "Rüzgar hızını gösterir.",
-                null,
-                null,
-                "msg1",
-                2.1,
-                R.drawable.ic_baseline_toys_24,
-                ControlPanelAdapterItemType.READ_DATA
-            )
-        )
-        //water engine
-        returnData.add(
-            ControlPanelAdapterItem(
-                "Su motoru",
-                "Seranın sulama durumunu gösterir.",
-                "Açık",
-                null,
-                "msg1",
-                2.1,
-                R.drawable.ic_baseline_toys_24,
-                ControlPanelAdapterItemType.SEND_DATA
-            )
-        )
+    }
 
-        //first roof
-//        BluetoothControl.btWrite("v")
-        returnData.add(
-            ControlPanelAdapterItem(
-                "Çatı 1",
-                "Bir numaralı çatının havalandırma için açık veya olduğunu gösterir. Çatı durumunu buradan kontrol edebilirsiniz.",
-                "Açık",
-                null,
-                "v",
-                null,
-                R.drawable.ic_broken_roof,
-                ControlPanelAdapterItemType.SEND_DATA
+        liveWindSpeed.value?.let {
+            //wind speed
+            returnData.add(
+                ControlPanelAdapterItem(
+                    "Rüzgar Hızı",
+                    "Rüzgar hızını gösterir.",
+                    null,
+                    null,
+                    it,
+                    0.5,
+                    R.drawable.ic_baseline_toys_24,
+                    ControlPanelAdapterItemType.READ_DATA
+                )
             )
-        )
+        }
 
-        //second roof
-        returnData.add(
-            ControlPanelAdapterItem(
-                "Çatı 2",
-                "İki numaralı çatının havalandırma için açık veya olduğunu gösterir. Çatı durumunu buradan kontrol edebilirsiniz.",
-                "Açık",
-                null,
-                "v",
-                null,
-                R.drawable.ic_broken_roof,
-                ControlPanelAdapterItemType.SEND_DATA
+        liveWaterPump.value?.let {
+            //water engine
+            returnData.add(
+                ControlPanelAdapterItem(
+                    "Su motoru",
+                    "Seranın sulama durumunu gösterir.",
+                    it,
+                    null,
+                    it,
+                    0.6,
+                    R.drawable.ic_baseline_toys_24,
+                    ControlPanelAdapterItemType.SEND_DATA
+                )
             )
-        )
+        }
+
+        liveFirstRoofState.value?.let {
+            //first roof
+            returnData.add(
+                ControlPanelAdapterItem(
+                    "Çatı 1",
+                    "Bir numaralı çatının havalandırma için açık veya olduğunu gösterir. Çatı durumunu buradan kontrol edebilirsiniz.",
+                    it,
+                    "v",
+                    null,
+                    0.7,
+                    R.drawable.ic_broken_roof,
+                    ControlPanelAdapterItemType.SEND_DATA
+                )
+            )
+        }
+
+        liveSecondRoofState.value?.let {
+            //second roof
+            returnData.add(
+                ControlPanelAdapterItem(
+                    "Çatı 2",
+                    "İki numaralı çatının havalandırma için açık veya olduğunu gösterir. Çatı durumunu buradan kontrol edebilirsiniz.",
+                    it,
+                    null,
+                    "v",
+                    null,
+                    R.drawable.ic_broken_roof,
+                    ControlPanelAdapterItemType.SEND_DATA
+                )
+            )
+        }
+
+        liveFan.value?.let {
+            //fan
+            returnData.add(
+                ControlPanelAdapterItem(
+                    "Fan",
+                    "İki numaralı çatının havalandırma için açık veya olduğunu gösterir. Çatı durumunu buradan kontrol edebilirsiniz.",
+                    it,
+                    null,
+                    "v",
+                    null,
+                    R.drawable.ic_broken_roof,
+                    ControlPanelAdapterItemType.SEND_DATA
+                )
+            )
+        }
 
         liveControlPanelData.postValue(returnData)
     }
