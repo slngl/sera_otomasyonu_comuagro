@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.agrocomu.seraotomasyonu.R
 import com.agrocomu.seraotomasyonu.base.BaseFragment
+import com.agrocomu.seraotomasyonu.base.BluetoothControl
 import com.agrocomu.seraotomasyonu.databinding.FragmentDashboardBaseBinding
 import com.agrocomu.seraotomasyonu.entity.DashboardMenuItemEntity
 import com.agrocomu.seraotomasyonu.entity.DashboardMenuItemType
@@ -56,6 +57,7 @@ class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
             }
 
         })*/
+        BluetoothControl.connectDevice("98:D3:31:F7:62:36")
 
         return binding.root
     }
