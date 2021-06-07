@@ -18,12 +18,15 @@ object BluetoothControl {
 
     fun connectDevice(deviceAddress: String?) {
         if (deviceAddress != null) {
-            m_address = deviceAddress
+//            m_address = deviceAddress
+            createConnectThread = CreateConnectThread(bluetoothAdapter, deviceAddress)
+            createConnectThread!!.start()
+            println(deviceAddress + "deviceAddress")
         }
 //        ConnectToDevice().execute()
-        createConnectThread = CreateConnectThread(bluetoothAdapter, deviceAddress)
+/*        createConnectThread = CreateConnectThread(bluetoothAdapter, deviceAddress)
         createConnectThread!!.start()
-        println(deviceAddress + "deviceAddress")
+        println(deviceAddress + "deviceAddress")*/
     }
 
 
@@ -32,11 +35,12 @@ object BluetoothControl {
     }
 
     fun btRead(): String? {
-        return receivedMessage
+        val msg = connectedThread?.receiveData()
+        return msg
     }
 
     fun cancelConnection() {
-
+        connectedThread?.cancel()
     }
 
     private lateinit var receivedMessage: String
@@ -44,6 +48,7 @@ object BluetoothControl {
     private var m_isConnected: Boolean = false
     private lateinit var m_address: String
 
+/*
     private fun sendCommand(input: String) {
         if (m_bluetoothSocket != null) {
             try {
@@ -65,6 +70,7 @@ object BluetoothControl {
             }
         }
     }
+*/
 
 
     /* ============================ Thread to Create Bluetooth Connection =================================== */

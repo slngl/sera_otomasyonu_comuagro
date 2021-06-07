@@ -17,15 +17,19 @@ import javax.inject.Inject
 @HiltViewModel
 class MainBaseViewModel @Inject constructor() : ViewModel() {
 
+    //send data states
     val liveFirstRoofState = MutableLiveData<String?>()
-    val liveSecondRoofState = MutableLiveData<String>()
-    val liveWindSpeed = MutableLiveData<String>()
-    val liveWindRotate = MutableLiveData<String>()
-    val liveTemp = MutableLiveData<String>()
-    val liveAmbientHumidity = MutableLiveData<String?>()
-    val liveSoilHumidity = MutableLiveData<String>()
-    val liveDataMenuItems = MutableLiveData<List<DashboardMenuItemEntity>>()
+    val liveSecondRoofState = MutableLiveData<String?>()
+    val liveWaterPump = MutableLiveData<String?>()
+    val liveFan = MutableLiveData<String?>()
 
+    //read data
+    val liveWindSpeed = MutableLiveData<String?>()
+    val liveWindRotate = MutableLiveData<String?>()
+    val liveTemp = MutableLiveData<String?>()
+    val liveAmbientHumidity = MutableLiveData<String?>()
+    val liveSoilHumidity = MutableLiveData<String?>()
+    val liveDataMenuItems = MutableLiveData<List<DashboardMenuItemEntity>>()
     val liveControlPanelData = MutableLiveData<List<ControlPanelAdapterItem>>()
 
     init{
@@ -162,15 +166,17 @@ class MainBaseViewModel @Inject constructor() : ViewModel() {
         val msg = BluetoothControl.btRead()
         msg?.let {  msg->
             when(msg){
-                "a" -> liveAmbientHumidity.postValue(msg)
-                "b" -> liveSoilHumidity.postValue(msg)
-                "c" -> liveTemp.postValue(msg)
-                "d" -> liveWindRotate.postValue(msg)
-                "e" -> liveWindSpeed.postValue(msg)
-
+                "ortamNem" -> liveAmbientHumidity.postValue(msg)
+                "toprakNem" -> liveSoilHumidity.postValue(msg)
+                "sicaklik" -> liveTemp.postValue(msg)
+                "ruzgarYonu" -> liveWindRotate.postValue(msg)
+                "ruzgarHizi" -> liveWindSpeed.postValue(msg)
+                "catiBir" -> liveFirstRoofState.postValue(msg)
+                "catiIki" -> liveSecondRoofState.postValue(msg)
+                "suMotoru" -> liveWaterPump.postValue(msg)
+                "fan" -> liveFan.postValue(msg)
             }
         }
-
     }
 
     fun sendDataToBluetooth(msg : String){

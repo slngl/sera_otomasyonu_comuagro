@@ -16,10 +16,6 @@ class WeatherViewModel @Inject constructor(private val weatherRepostory: Weather
     ViewModel() {
 
     val liveWeatherResponse = MutableLiveData<WeatherResponse>()
-    val liveSpeed = MutableLiveData<String>()
-    val liveTemp = MutableLiveData<String>()
-    val liveDesc = MutableLiveData<String>()
-    val liveIcon = MutableLiveData<String>()
     val liveError = MutableLiveData<String>()
 
     fun getWeather(cityName: String) {
@@ -30,12 +26,6 @@ class WeatherViewModel @Inject constructor(private val weatherRepostory: Weather
                 is DataHolder.Success -> liveWeatherResponse.postValue(response.data!!)
                 is DataHolder.Error -> liveError.postValue(response.message)
             }
-/*            response.mapAndResponseIfSuccess {
-                liveWeatherResponse.postValue(it)
-                liveTemp.postValue(it.main?.temp.toString())
-                liveDesc.postValue(it.weather!![0].description!!)
-                liveSpeed.postValue(it.wind?.speed.toString())
-            }*/
         }
 
     }

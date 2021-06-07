@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_water_pump">Su Pompası</string>
+    <string name="title_first_roof">Birinci Çatı</string>
+    <string name="title_second_roof">İkinci Çatı</string>
+    <string name="title_fan">Fan</string>
+</resources>
