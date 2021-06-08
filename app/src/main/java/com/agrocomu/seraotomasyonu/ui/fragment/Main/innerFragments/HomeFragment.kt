@@ -40,7 +40,7 @@ class HomeFragment : BaseFragment<FragmentDashboardHomeBinding>() {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         weatherViewModel.getWeather("çanakkale")
-        baseViewModel.getControlPanelList()
+        baseViewModel.startPolling()
 
         concatAdapter.addAdapter(homeWeatherAdapter)
         concatAdapter.addAdapter(controlPanelAdapter)

@@ -30,7 +30,6 @@ class ControlPanelFragment : BaseFragment<FragmentDashboardControlPanelBinding>(
         savedInstanceState: Bundle?
     ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-        baseViewModel.startPolling()
 
 //        binding.rv.adapter = controlPanelAdapter
         var control="ac"
@@ -40,15 +39,7 @@ class ControlPanelFragment : BaseFragment<FragmentDashboardControlPanelBinding>(
                 it.filter {
                     it.controlPanelAdapterItemType == ControlPanelAdapterItemType.SEND_DATA
                 }
-//                controlPanelAdapter.submitList(it)
-                binding.btFan.setOnClickListener {
-                    if (control=="ac"){
-                        control="kapa"
-                        BluetoothControl.btWrite(control)
-                    }else{
-                        control="ac"
-                        BluetoothControl.btWrite(control)                    }
-                }
+                controlPanelAdapter.submitList(it)
             }
         })
         return binding.root
